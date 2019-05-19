@@ -1,9 +1,19 @@
 <script>
+import Datepicker from 'vuejs-datepicker';
 export default {
   props: ['todoData'],
+  components: {
+    Datepicker,
+  },
   data(){
     return {
       isActive: false,
+      datepickerOption: {
+        format: 'yyyy-MM-dd',
+        placeholder: '請輸入日期',
+        inputClass: 'datepicker_date',
+        wrapperClass: 'datepicker_wrap',
+      },
     }
   },
   methods: {
@@ -27,9 +37,16 @@ export default {
   <div class="todo_item">
     <div class="todo_header">
       <div class="todo_date">
-        <input type="date" 
+        <datepicker 
+          :format="this.datepickerOption.format"
+          :placeholder="this.datepickerOption.placeholder"
+          :input-class="this.datepickerOption.inputClass"
+          :wrapper-class="this.datepickerOption.wrapperClass"
+        v-model="todoData.start">
+        </datepicker>
+        <!-- <input type="date" 
           class="date"
-          v-model="todoData.start" />
+          v-model="todoData.start" /> -->
         <button type="button" class="btn_remove" @click="removeTodo()"></button>
       </div>
       <div class="todo_title">
@@ -101,10 +118,6 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .date {
-      height: 20px;
-      line-height: 20px;
-    }
   }
   .todo_title {
     display: flex;
@@ -136,6 +149,7 @@ textarea {
 .btn_create {
   background-image: url("./../../images/arrow.png");
   background-size: cover;
+  transition: transform .5s;
   &.open {
     transform: rotate(180deg);
   }

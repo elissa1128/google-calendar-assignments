@@ -1,17 +1,29 @@
 <script>
+import moment from 'moment';
+import Datepicker from 'vuejs-datepicker';
+
 export default {
+  components: {
+    Datepicker,
+  },
   data(){
     return {
       task: {
         start: '',
         summary: '',
         description: '',
+      },
+      datepickerOption: {
+        format: 'yyyy-MM-dd',
+        placeholder: '請輸入日期',
+        inputClass: 'datepicker_date',
+        wrapperClass: 'datepicker_wrap',
       }
     }
   },
   methods: {
     onSubmit(){
-      if(this.task.start === '' && this.task.summary === ''){
+      if(!moment(this.task.start).isValid() || this.task.summary === ''){
         alert("日期、主題，請填寫完整");
         return;
       }
@@ -29,7 +41,14 @@ export default {
 <template>
   <form @submit.prevent="onSubmit">
     <div class="create_header">
-      <input type="date" placeholder="日期" class="date" v-model="task.start"/>
+      <datepicker 
+        :format="this.datepickerOption.format"
+        :placeholder="this.datepickerOption.placeholder"
+        :clear-button="true"
+        :input-class="this.datepickerOption.inputClass"
+        :wrapper-class="this.datepickerOption.wrapperClass"
+        v-model="task.start">
+      </datepicker>
       <input type="text" placeholder="主題" class="name" v-model="task.summary"/>
     </div>
     <textarea placeholder="摘要" v-model="task.description"></textarea>
@@ -42,22 +61,6 @@ export default {
 form {
   width: 100%;
   margin-bottom: 25px;
-}
-
-.create_header {
-  display: flex;
-  width: 100%;
-  margin-bottom: 10px;
-  input {
-    height: 35px;
-  }
-  .date {
-    width: 35%;
-  }
-  .name {
-    width: 65%;
-    margin-left: 10px;
-  }
 }
 
 input,textarea {
@@ -87,6 +90,16 @@ button {
   cursor: pointer;
   &:focus {
     outline: none;
+  }
+}
+
+.create_header {
+  display: flex;
+  width: 100%;
+  margin-bottom: 10px;
+  .name {
+    width: 50%;
+    height: 35px;
   }
 }
 </style>
