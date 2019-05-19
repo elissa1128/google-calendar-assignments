@@ -1,0 +1,15 @@
+$container: 960px;
+$pad: 940px;
+$mob: 720px;
+$smob: 340px;
+
+$border-color: #c5c5c5;
+$main-color: #4fc08d;
+
+%clear {
+	&:after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+}
